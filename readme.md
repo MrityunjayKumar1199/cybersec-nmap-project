@@ -39,13 +39,46 @@ Objective
 	Network reconnaissance
 	The importance of proper firewall rules and hardening
 
+___________________________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________________________
+															  ## Wireshark Capture & Analysis
+
+Capture Details
+- Host captured: 10.0.2.15
+- Capture file: captures/session1.pcapng
+- Capture duration: ~5 seconds (adjust based on your capture)
+- Total packets: 32 (adjust based on your capture)
+
+ Filters Used
+- `ip.addr == 10.0.2.15` → focus on traffic to/from our host
+- `tcp.flags.syn == 1 && tcp.flags.ack == 0` → highlight Nmap TCP SYN scan packets
+- `tcp.port == 3306` → MySQL traffic (optional)
+- `dns` → DNS queries
+
+ Key Observations
+1. **DNS Queries**
+   - Host 10.0.2.15 queried DNS server 192.168.1.254 for `play.picoctf.org`
+   - Responses returned A and AAAA records
+
+2. **QUIC Traffic**
+   - Host performed QUIC handshake with 172.66.157.191
+   - Handshake packets exchanged (Initial, Handshake, Protected Payload)
+   - Encrypted application data observed after handshake
+
+3. **TLS / HTTPS Traffic**
+   - Encrypted communication established with servers:
+     - 34.107.243.93 (TLSv1.2)
+     - 151.101.129.91 (TLSv1.2)
+   - TCP ACK packets confirm reliable delivery
+
+4. **Nmap TCP SYN Packets**
+   - SYN packets sent to open ports discovered in Nmap scan (135, 445, 3306, 4343, 4449)
+   - Host responded with SYN-ACK or RST
+   - Confirms which services are active and reachable
 
 
-					Repo Structure
-					.
-					├─ README.md
-					├─ reports/
-					│  └─ scan.txt
-					└─ screenshots/
-					   └─ (images showing scan steps/results)
 
+
+w
+
+  
